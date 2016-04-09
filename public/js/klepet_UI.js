@@ -11,11 +11,25 @@ function divElementEnostavniTekst(sporocilo) {
     vsebnikTeksta.text(sporocilo);
   }
   vsebnikSporocila.append(vsebnikTeksta);
+  vsebnikSporocila = divElementYT(vsebnikSporocila);
   return vsebnikSporocila;
 }
 
 function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
+}
+
+function divElementYT(vsebnikSporocila) {
+  var povezaveDoVideov = vsebnikSporocila.find('.vsebnikTeksta').text().match(/http[s]?:\/\/(www\.)?youtube.com\/watch\?v=.{11}/gi);
+  if(!povezaveDoVideov) {
+    return vsebnikSporocila;
+  }
+  var vsebnikVideov = $('<div class="vsebnikVideov"></div>');
+  $(povezaveDoVideov).each(function(){
+    vsebnikVideov.append('<iframe src="' + this.replace("watch?v=", "embed/") + '">');
+  });
+  vsebnikSporocila.append(vsebnikVideov);
+  return vsebnikSporocila;
 }
 
 function procesirajVnosUporabnika(klepetApp, socket) {

@@ -62,3 +62,15 @@ a {
   font-weight: bold;
   width: 100%;
 }
+
+.vsebnikVideov {
+  width: 200px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.vsebnikVideov iframe {
+  margin-top: 20px;
+  width: inherit;
+  height: 150px;
+}
