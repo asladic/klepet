@@ -62,3 +62,14 @@ a {
   font-weight: bold;
   width: 100%;
 }
+
+.vsebnikSlik {
+  width: 200px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.vsebnikSlik img {
+  margin-top: 20px;
+  width: inherit;
+}

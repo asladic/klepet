@@ -11,11 +11,25 @@ function divElementEnostavniTekst(sporocilo) {
     vsebnikTeksta.text(sporocilo);
   }
   vsebnikSporocila.append(vsebnikTeksta);
+  vsebnikSporocila = divElementImg(vsebnikSporocila);
   return vsebnikSporocila;
 }
 
 function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
+}
+
+function divElementImg(vsebnikSporocila) {
+  var povezaveDoSlik = vsebnikSporocila.find('.vsebnikTeksta').text().match(/http[s]?:\/\/[^\s]*\.(jpg|png|gif)/gi);
+  if(!povezaveDoSlik) {
+    return vsebnikSporocila;
+  }
+  var vsebnikSlik = $('<div class="vsebnikSlik"></div>');
+  $(povezaveDoSlik).each(function(){
+    vsebnikSlik.append('<img src="' + this + '">');
+  });
+  vsebnikSporocila.append(vsebnikSlik);
+  return vsebnikSporocila;
 }
 
 function procesirajVnosUporabnika(klepetApp, socket) {
