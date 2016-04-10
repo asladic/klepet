@@ -63,7 +63,7 @@ a {
   width: 100%;
 }
 
-.vsebnikSlik {
+.vsebnikSlik, .vsebnikVideov {
   width: 200px;
   margin-left: 20px;
   margin-bottom: 20px;
@@ -72,4 +72,9 @@ a {
 .vsebnikSlik img {
   margin-top: 20px;
   width: inherit;
+
+.vsebnikVideov iframe {
+  margin-top: 20px;
+  width: inherit;
+  height: 150px;
 }

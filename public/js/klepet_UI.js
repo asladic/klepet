@@ -12,6 +12,7 @@ function divElementEnostavniTekst(sporocilo) {
   }
   vsebnikSporocila.append(vsebnikTeksta);
   vsebnikSporocila = divElementImg(vsebnikSporocila);
+  vsebnikSporocila = divElementYT(vsebnikSporocila);
   return vsebnikSporocila;
 }
 
@@ -29,6 +30,21 @@ function divElementImg(vsebnikSporocila) {
     vsebnikSlik.append('<img src="' + this + '">');
   });
   vsebnikSporocila.append(vsebnikSlik);
+
+  return vsebnikSporocila;
+}
+
+function divElementYT(vsebnikSporocila) {
+  var povezaveDoVideov = vsebnikSporocila.find('.vsebnikTeksta').text().match(/http[s]?:\/\/(www\.)?youtube.com\/watch\?v=.{11}/gi);
+  if(!povezaveDoVideov) {
+    return vsebnikSporocila;
+  }
+  var vsebnikVideov = $('<div class="vsebnikVideov"></div>');
+  $(povezaveDoVideov).each(function(){
+    vsebnikVideov.append('<iframe src="' + this.replace("watch?v=", "embed/") + '">');
+  });
+  vsebnikSporocila.append(vsebnikVideov);
+
   return vsebnikSporocila;
 }
 
