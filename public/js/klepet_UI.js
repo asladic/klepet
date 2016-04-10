@@ -141,6 +141,16 @@ $(document).ready(function() {
       $('#poslji-sporocilo').focus();
     });
   });
+  
+  socket.on('dregljaj', function(dregljajStatus){
+    if(dregljajStatus.dregljaj) {
+      var vsebina = $('#vsebina').jrumble();
+      vsebina.trigger('startRumble');
+      window.setTimeout(function(){
+        vsebina.trigger('stopRumble');
+      }, 1500)
+    }
+  });
 
   setInterval(function() {
     socket.emit('kanali');
