@@ -1,15 +1,35 @@
 function divElementEnostavniTekst(sporocilo) {
+  var vsebnikSporocila = $('<div class="vsebnikSporocila"></div>');
+  var vsebnikTeksta = $('<div class="vsebnikTeksta"></div>');
   var jeSmesko = sporocilo.indexOf('http://sandbox.lavbic.net/teaching/OIS/gradivo/') > -1;
   if (jeSmesko) {
-    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />');
-    return $('<div style="font-weight: bold"></div>').html(sporocilo);
+    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;')
+    .replace(literalRegExp('&lt;img', "g"), '<img')
+    .replace(literalRegExp('png\' /&gt;', "g"), 'png\' />');
+    vsebnikTeksta.html(sporocilo);
   } else {
-    return $('<div style="font-weight: bold;"></div>').text(sporocilo);
+    vsebnikTeksta.text(sporocilo);
   }
+  vsebnikSporocila.append(vsebnikTeksta);
+  vsebnikSporocila = divElementImg(vsebnikSporocila);
+  return vsebnikSporocila;
 }
 
 function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
+}
+
+function divElementImg(vsebnikSporocila) {
+  var povezaveDoSlik = vsebnikSporocila.find('.vsebnikTeksta').text().match(/http[s]?:\/\/[^\s]*\.(jpg|png|gif)/gi);
+  if(!povezaveDoSlik) {
+    return vsebnikSporocila;
+  }
+  var vsebnikSlik = $('<div class="vsebnikSlik"></div>');
+  $(povezaveDoSlik).each(function(){
+    vsebnikSlik.append('<img src="' + this + '">');
+  });
+  vsebnikSporocila.append(vsebnikSlik);
+  return vsebnikSporocila;
 }
 
 function procesirajVnosUporabnika(klepetApp, socket) {
@@ -130,9 +150,13 @@ function dodajSmeske(vhodnoBesedilo) {
     ":(": "sad.png"
   }
   for (var smesko in preslikovalnaTabela) {
-    vhodnoBesedilo = vhodnoBesedilo.replace(smesko,
+    vhodnoBesedilo = vhodnoBesedilo.replace(literalRegExp(smesko, "g"),
       "<img src='http://sandbox.lavbic.net/teaching/OIS/gradivo/" +
       preslikovalnaTabela[smesko] + "' />");
   }
   return vhodnoBesedilo;
 }
+
+function literalRegExp(literal_string, options) {
+  return RegExp(literal_string.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&'), options);
+} 
